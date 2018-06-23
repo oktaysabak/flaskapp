@@ -1,0 +1,16 @@
+{% extends 'master.html' %}
+{% block content %}
+<div>
+    {% if userList %}
+    <div>
+    {% for user in userList %}
+    
+        <li>Name: {{user.name}} || Job: {{user.title}} </li>
+
+    {% endfor %}
+    </div>
+    {% else %}
+    <small>No user founds.</small>
+    {% endif %}
+</div>
+{% endblock %}
