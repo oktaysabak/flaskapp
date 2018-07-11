@@ -1,0 +1,22 @@
+{% extends 'master.html' %}
+{% block content %}
+
+<form action="" method="post">
+       
+    <div>
+        {{ form.username.label }}
+        {{ form.username(size=32) }}
+    </div>
+    <div>
+        {{ form.password.label }}
+        {{ form.password() }}
+    </div>
+    <div>
+        {{ form.remember_me.label }}
+        {{ form.remember_me() }}
+    </div>
+    {{ form.submit() }}
+    
+</form>
+
+{% endblock %}
