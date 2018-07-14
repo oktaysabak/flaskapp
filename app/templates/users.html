@@ -1,8 +1,8 @@
 {% extends 'master.html' %}
-{% block content %}
-<div>
+{% block app_content %}
+<div class="row">
     {% if userList %}
-    <div>
+    <div class="col-md-5 col-md-offset-4">
     {% for user in userList %}
     
         <li>Name: {{user.name}} || Job: {{user.title}} </li>
