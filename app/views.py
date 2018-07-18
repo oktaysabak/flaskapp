@@ -1,6 +1,6 @@
 from flask import render_template, redirect, flash, url_for
-from app import app
-from .forms import LoginForm
+from app import app, db
+from .forms import LoginForm, RegisterForm
 from app.models import User
 @app.route('/')
 @app.route('/home')
@@ -9,10 +9,8 @@ def index():
     return render_template('index.html', title='H0me Page', user = user)
 @app.route('/users')
 def users():
-    userList = [
-        {'name':'Oktay', 'title':'Bonboşş Adam'},
-        {'name':'Doğuş', 'title':'Daha Bonboşş Adam'},
-    ]
+    userList = User.query.all()
+    
     return render_template('users.html', title = 'Users Page', userList= userList)
 @app.route('/login', methods = ['GET','POST'])
 def login():
@@ -27,6 +25,21 @@ def login():
             return redirect('/dashboard')
     else:
         return render_template('login.html', title='Login', form = form)
+@app.route('/register', methods = ['GET','POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user  = User(username=form.username.data, password = form.password.data, email = form.email.data)
+        mail = User.query.filter_by(email=form.email.data).first()
+        if mail is not None:
+            flash('{} has been used!'.format(form.email.data))
+            return render_template('register.html', title = 'Register', form = form)
+        else:
+            db.session.add(user)
+            db.session.commit()
+        return redirect(url_for('login'))
+    else:
+        return render_template('register.html', title = 'Register', form = form)
 @app.route('/dashboard')
 def dashboard():
     
