@@ -7,7 +7,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for ctg,msg in messages %}
-        <div class="alert alert-{{ctg}}" role="alert">
+        <div class="alert" role="alert">
             <li>{{msg}}</li>
         </div>
             

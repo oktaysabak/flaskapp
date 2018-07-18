@@ -9,8 +9,7 @@ def index():
     return render_template('index.html', title='H0me Page', user = user)
 @app.route('/users')
 def users():
-    userList = User.query.all()
-    
+    userList = User.query.order_by(User.username).all()
     return render_template('users.html', title = 'Users Page', userList= userList)
 @app.route('/login', methods = ['GET','POST'])
 def login():
@@ -37,7 +36,8 @@ def register():
         else:
             db.session.add(user)
             db.session.commit()
-        return redirect(url_for('login'))
+            flash('{} has been added!'.format(form.email.data))
+            return redirect(url_for('login'))
     else:
         return render_template('register.html', title = 'Register', form = form)
 @app.route('/dashboard')
