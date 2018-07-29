@@ -44,7 +44,7 @@ def register():
             db.session.add(user)
             db.session.commit()
             flash('{} has been added!'.format(form.email.data))
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('login'))
     else:
         return render_template('register.html', title = 'Register', form = form)
 @app.route('/dashboard')
