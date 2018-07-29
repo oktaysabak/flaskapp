@@ -1,13 +1,16 @@
 from flask import render_template, redirect, flash, url_for
+from flask_login import login_required,current_user,login_user,logout_user
 from app import app, db
 from .forms import LoginForm, RegisterForm
 from app.models import User
 @app.route('/')
 @app.route('/home')
+@login_required
 def index():
     user = 'Guest'
     return render_template('index.html', title='H0me Page', user = user)
 @app.route('/users')
+@login_required
 def users():
     userList = User.query.order_by(User.username).all()
     return render_template('users.html', title = 'Users Page', userList= userList)
@@ -19,11 +22,15 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash("Username or Password is Wrong!")
             return redirect(url_for('login'))
-        else:
-            flash('Login successfull.! User {}'.format(form.username.data))
-            return redirect('/dashboard')
+        login_user(user)
+        return redirect(url_for('dashboard'))
     else:
         return render_template('login.html', title='Login', form = form)
+@app.route('/logout',methods=['GET','POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 @app.route('/register', methods = ['GET','POST'])
 def register():
     form = RegisterForm()
