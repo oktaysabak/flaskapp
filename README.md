@@ -1,5 +1,7 @@
 # flaskapp
+
 * you should run these commands:
+
 `cd /flaskapp`
 `export FLASK_APP=main.py`
 `export FLASK_ENV=development`
