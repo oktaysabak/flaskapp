@@ -48,8 +48,12 @@ def register():
         user = User(username=form.username.data,
                     password=form.password.data, email=form.email.data)
         mail = User.query.filter_by(email=form.email.data).first()
+        username = User.query.filter_by(username=form.username.data).first()
         if mail is not None:
             flash('{} has been used!'.format(form.email.data))
+            return render_template('register.html', title='Register', form=form)
+        elif username is not None:
+            flash('{} has been used!'.format(form.username.data))
             return render_template('register.html', title='Register', form=form)
         else:
             db.session.add(user)
