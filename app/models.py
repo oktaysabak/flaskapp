@@ -16,6 +16,9 @@ class User(UserMixin,db.Model):
             return True
         else:
             return False
+    def __str__(self):
+        return self.username
+        
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
